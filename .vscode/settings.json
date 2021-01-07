@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "iosfwd": "cpp",
+        "iostream": "cpp",
+        "ostream": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp",
+        "xstring": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Disabled",
+    "workbench.editor.enablePreview": false
+}
