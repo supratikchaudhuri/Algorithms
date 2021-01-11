@@ -10,7 +10,7 @@ int knapsack(int weights[], int profits[], int w, int i) {
         return knapsack(weights, profits, w, i-1);//we skip this item
 
     else {
-        //either include current profit or wxcule it hoping to get more profit in future
+        //either include current profit or exclude it hoping to get more profit in future
         return max(profits[i] + knapsack(weights, profits, w-weights[i], i-1), 
                     knapsack(weights, profits, w, i-1));
     } 
