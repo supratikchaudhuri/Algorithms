@@ -4,11 +4,11 @@ using namespace std;
 void merge(int arr[], int l, int m, int r){
     int i = l, j = m+1, k = l;
     
-    cout<<"doing :   ";     for(int s = l; s<= r; s++){
-                                cout<<arr[s]<<"\t";
-                            }
-    //cout<<i<<"  "<<j;
-    cout<<endl;
+    // cout<<"doing :   ";     for(int s = l; s<= r; s++){
+    //                             cout<<arr[s]<<"\t";
+    //                         }
+    // //cout<<i<<"  "<<j;
+    // cout<<endl;
     int temp[7];
 
     while(i <=m and j <= r){

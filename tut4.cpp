@@ -1,67 +1,55 @@
+//same as partition euqal subsets
 #include<bits/stdc++.h>
 using namespace std;
 
-#define ll long long
 
 class Solution {
-    bool isValid(vector<string>& board, int row, int col, int n) {
-        //check if col already has a queen or not
-        for(int i = 0; i < row; i++) {
-            if(board[i][col] == 'Q')
-                return false;
+public :
+
+    void printSubArray(vector<int> subarr) {
+        for(int i : subarr) {
+            cout<< i<<" ";
         }
-        
-        //check if 45 deg diagonal has queen pt not
-        for(int i = row-1, j = col+1; i >= 0 and j < n; i--, j++)
-            if(board[i][j] == 'Q')
-                return false;
-        
-        //checkng if 135deg fiagnol has a Q or not
-        for(int i = row-1, j = col-1; i >= 0 and j >= 0; i--, j--)
-            if(board[i][j] == 'Q')
-                return false;
-        
-        return true;
+        cout<<endl;
     }
-    
-    void rec(vector<vector<string>>& res, vector<string> board, int row, int n) {
-        if(row == n) {
-            res.push_back(board);
-            return;
+
+    void rec(vector<int>& arr, int target, int i, int n, vector<int> subarr,vector<vector<int>>& res) {
+        if(i > n) return;
+
+        if(target == 0) {
+            res.push_back(subarr);
         }
         
-        for(int col = 0; col < n; col++) {
-            //checking to see if a queen at board[row][col] is valid or not ±
-            if(isValid(board, row, col, n)) {
-                board[row][col] = 'Q';
-                rec(res, board, row+1, n);
-                board[row][col] = '_';
-            }
-        }
+        //include current element in sum
+        subarr.push_back(arr[i]);
+        rec(arr, target - arr[i], i+1, n, subarr, res);
+
+        //exclude current element from sum
+        subarr.pop_back();
+        rec(arr, target, i+1, n, subarr, res);
     }
-    
-public:
-    vector<vector<string>> solveNQueens(int n) {
-        vector<vector<string>> res;
-        vector<string> board (n, string(n, '_'));
-        rec(res, board, 0, n);
-        return res;
+
+    void subsetSum(vector<int>& arr, int target) {
+        sort(arr.begin(), arr.end());
+        vector<vector<int>> res;
+        rec(arr, target, 0, arr.size(), {}, res);
     }
 };
 
 int main() {
-    Solution ob;
     int n;
-    cout<<"Enter n for n*n queen chessboard"<<endl;
+    cout << "Enter size of array: ";
     cin >> n;
-
-    vector<vector<string>> res= ob.solveNQueens(n);
-
+    vector<int> arr(n);
+    cout<<"Enter elements of array: \n";
     for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++){
-            cout<< res[i][j] << endl;
-        }
-        cout<<"--------------------------------------"<<endl;
+        cin >> arr[i];
     }
-    return 0;
+
+    int target;
+    cout<<"Enter subset Sum you want to find: ";
+    cin >> target;
+
+    Solution ob;
+    ob.subsetSum(arr, target, 0, n, {});
 }

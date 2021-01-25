@@ -1,6 +1,6 @@
 #include<iostream> 
 using namespace std; 
-#define INT_MAX 2147483647; 
+
 class Solution { 
     public:
     int search(int arr[], int low, int high, int diff) { 

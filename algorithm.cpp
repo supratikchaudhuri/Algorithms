@@ -8,11 +8,6 @@ class Solution {
 };
 
 int main() {
-    Solution ob;
-
-    vector<int> arr;
-    vector<vector<int>> arr;
-    string s = "bbbab"
-    cout<<
+    
     return 0;
 }
