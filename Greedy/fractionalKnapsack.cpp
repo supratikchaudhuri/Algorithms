@@ -53,8 +53,8 @@ double fractionalKnapsack(int W, struct Item arr[], int n)
 int main() 
 { 
     int W = 20; //    Weight of knapsack 
-    // Item arr[] = { { 60, 10 }, { 100, 20 }, { 120, 30 }, { 40, 40 } };  
-    Item arr[] = { { 25,18 }, { 24,15 }, { 15,10 }};  
+    Item arr[] = { { 60, 10 }, { 100, 20 }, { 120, 30 }, { 40, 40 } };  
+    // Item arr[] = { { 25,18 }, { 24,15 }, { 15,10 }};  
   
     int n = sizeof(arr) / sizeof(arr[0]); 
   

@@ -1,4 +1,7 @@
-//same as partition euqal subsets
+//PE 30
+//SUPRATIK CHAUDHURI
+//DAA CASE STUDY 
+
 #include<bits/stdc++.h>
 using namespace std;
 
