@@ -10,16 +10,21 @@ int minOps(string& A, string& B)
 	// This parts checks whether conversion is 
 	// possible or not 
 	if (n != m) 
-	return -1; 
+		return -1; 
+
+
 	int count[256]; 
 	memset(count, 0, sizeof(count)); 
+
 	for (int i=0; i<n; i++) // count characters in A 
-	count[B[i]]++; 
+		count[B[i]]++; 
+
 	for (int i=0; i<n; i++) // subtract count for 
-	count[A[i]]--;		 // every character in B 
+		count[A[i]]--;
+				 // every character in B 
 	for (int i=0; i<256; i++) // Check if all counts become 0 
-	if (count[i]) 
-		return -1; 
+		if (count[i]) 
+			return -1; 
 
 	// This part calculates the number of operations required 
 	int res = 0; 
