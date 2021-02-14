@@ -1,13 +1,13 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-struct Trie {
-    Trie *child[26];
+struct TrieNode {
+    TrieNode *child[26];
     bool eow; 
 };
 
-struct Trie* getNode() {
-    Trie *node = new Trie;
+struct TrieNode* getNode() {
+    TrieNode *node = new TrieNode;
     node->eow = false;
     
     for(int i = 0; i < 26; i++) {
@@ -16,8 +16,8 @@ struct Trie* getNode() {
     return node;
 }
 
-void insert(Trie *root, string word) {
-    Trie *it = root;
+void insert(TrieNode *root, string word) {
+    TrieNode *it = root;
 
     for(char c : word) {
         if(!it->child[c-'a'])
@@ -27,8 +27,8 @@ void insert(Trie *root, string word) {
     it->eow = true;
 }
 
-bool search(Trie *root, string word) {
-    Trie *it = root;
+bool search(TrieNode *root, string word) {
+    TrieNode *it = root;
 
     for(char ch : word) {
         if(!it->child[ch-'a'])
@@ -38,13 +38,24 @@ bool search(Trie *root, string word) {
     return (it != NULL && it->eow == true);
 }
 
+bool startsWith(TrieNode *root, string prefix) {
+    TrieNode* it = root;
+    
+    for(char ch : prefix) {
+        if(!it->child[ch-'a'])
+            return false;
+        it = it->child[ch-'a'];
+    }
+    return true;
+}
+
 int main() {
     string words[] = { "the", "a", "there",
                       "answer", "any", "by",
                       "bye", "their", "hero", "heroplane" };
     int n = sizeof(words) / sizeof(words[0]);
 
-    Trie *root = getNode(); 
+    TrieNode *root = getNode(); 
 
     for(int i = 0; i < n; i++) {
         insert(root, words[i]);
@@ -54,5 +65,10 @@ int main() {
                          cout << "No\n"; 
     search(root, "any")? cout << "Yes\n" : 
                            cout << "No\n";
+    startsWith(root, "hero") ? cout<< "YES\n" : cout<< "NO\n";
+    startsWith(root, "herro") ? cout<< "YES\n" : cout<< "NO\n";
+
+    // remove(root, "heroplane");
+    search(root, "hero") ? cout << "Yes\n" : cout << "No\n";
     return 0;
 }
