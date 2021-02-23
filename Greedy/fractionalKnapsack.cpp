@@ -1,47 +1,37 @@
 #include <bits/stdc++.h> 
 using namespace std;
 
-
-struct Item  
-{ 
+struct Item { 
     int value, weight; 
-  
-    // Constructor 
+  // Constructor 
     Item(int value, int weight) 
         : value(value) 
         , weight(weight) 
-    { 
-    } 
+    {} 
 }; 
 
-bool cmp(struct Item a, struct Item b) //value per item
-{ 
+bool cmp(struct Item a, struct Item b) {//value per item 
     double r1 = (double)a.value / (double)a.weight; 
     double r2 = (double)b.value / (double)b.weight; 
     return r1 > r2; 
 } 
 
 
-double fractionalKnapsack(int W, struct Item arr[], int n) 
-{ 
+double fractionalKnapsack(int W, struct Item arr[], int n) { 
     sort(arr, arr + n, cmp); 
-  
   
     int curWeight = 0; // Current weight in knapsack 
     double finalvalue = 0.0; // Result (value in Knapsack) 
   
-    for (int i = 0; i < n; i++)  
-    { 
-        if (curWeight + arr[i].weight <= W)  
-        { 
+    for (int i = 0; i < n; i++) { 
+        if (curWeight + arr[i].weight <= W)  { 
             curWeight += arr[i].weight; 
             finalvalue += arr[i].value; 
         } 
  
-        else 
-        { 
+        else { 
             int remain = W - curWeight; 
-            finalvalue += arr[i].value * ((double)remain / (double)arr[i].weight); 
+            finalvalue += (arr[i].value/ (double)arr[i].weight) * ((double)remain); 
             break; 
         } 
     } 
@@ -50,8 +40,7 @@ double fractionalKnapsack(int W, struct Item arr[], int n)
 } 
   
 // Driver code 
-int main() 
-{ 
+int main() { 
     int W = 20; //    Weight of knapsack 
     Item arr[] = { { 60, 10 }, { 100, 20 }, { 120, 30 }, { 40, 40 } };  
     // Item arr[] = { { 25,18 }, { 24,15 }, { 15,10 }};  

@@ -15,6 +15,9 @@ void jobSchedule(Job arr[], int n) {
 	    
 	priority_queue<int, vector<int>, greater<int>> pq;
 	
+    cout<<"JOBS -"<<endl;
+    for(int i = 0; i < n; i++)
+        cout<<arr[i].deadline<<" "<<arr[i].profit<<endl;
     //initalizing job with 1 so only job with delaline 1 will be selected at fisrt
 	int last_deadline = 0, profit = 0, jobs = 0;
 
@@ -36,11 +39,11 @@ void jobSchedule(Job arr[], int n) {
             } 
         }
 	}
-	cout<< jobs<< " " << profit << endl; 
+	cout<<"Total jobs: "<< jobs<< " " <<"Profit: " << profit << endl; 
 }
 
 int main() {
-    Job arr[] = {{1,2,100},{2,1,19},{3,2,27},{4,1,25},{5,1,15}};
+    Job arr[] = {{1,2,100},{2,1,19},{3,2,27},{4,1,25},{5,3,15}};
     jobSchedule(arr, 5);
 	return 0;
 }

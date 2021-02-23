@@ -1,7 +1,7 @@
 #include<iostream>
 using namespace std;
 
-void merge(int arr[], int l, int m, int r){
+void merge(int arr[], int l, int m, int r, int n){
     int i = l, j = m+1, k = l;
     
     // cout<<"doing :   ";     for(int s = l; s<= r; s++){
@@ -9,7 +9,7 @@ void merge(int arr[], int l, int m, int r){
     //                         }
     // //cout<<i<<"  "<<j;
     // cout<<endl;
-    int temp[7];
+    int temp[n];
 
     while(i <=m and j <= r){
         if(arr[i] <= arr[j]){
@@ -38,24 +38,23 @@ void merge(int arr[], int l, int m, int r){
     }
 }
 
-void mergeSort(int arr[], int l, int r){
+void mergeSort(int arr[], int l, int r, int n){
     int m = (l+r) / 2;
 
     if(l < r){
-        mergeSort(arr, l, m);
-        mergeSort(arr, m+1, r);
-        merge(arr, l, m, r);
+        mergeSort(arr, l, m, n);
+        mergeSort(arr, m+1, r, n);
+        merge(arr, l, m, r, n);
     }
 }
 
 int main() {
-    int arr[7] = {6,3,5,4,1,7,2};
-
-    mergeSort(arr, 0, 6);
+    int arr[] = {5,8,2,5,8,0,-2,3,67,-23,45,78, 99,-99,-12,45,76};
+    int n = sizeof(arr)/sizeof(arr[0]);
+ 
+    mergeSort(arr, 0, n-1, n);
     
-    for(int i = 0; i < 7; i++){
+    for(int i = 0; i < n; i++){
         cout<< arr[i] <<"\t";
     }
-    
-    return 0;
 }

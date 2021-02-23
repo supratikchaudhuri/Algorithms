@@ -1,6 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// https://www.spoj.com/problems/AGGRCOW/
 bool valid(vector<int>& pos, int mid, int c) {
     int cows_placed = 1, last_pos =pos[0];
     for(int i = 1; i < pos.size(); i++) {

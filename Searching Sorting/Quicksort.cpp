@@ -3,16 +3,16 @@ using namespace std;
 
 int partition(int arr[], int l, int r) {
     int pivot = arr[r];
-    int i = l-1;
+    int i = l;
 
     for(int j = l; j < r; j++) {
         if(arr[j] <= pivot){
-            i++;
             swap(arr[i], arr[j]);
+            i++;
         }
     }
-    swap(arr[i+1], arr[r]);     //putting pivot at right place
-    return i+1;
+    swap(arr[i], arr[r]);     //putting pivot at right place
+    return i;
 }
 
 void quickSort(int arr[], int l, int r) {
@@ -26,10 +26,12 @@ void quickSort(int arr[], int l, int r) {
 
 int main () {
 
-    int arr[] = {5,8,3,10,4,-9,2,45,37,1,3,5,89,35,76};
-    quickSort(arr, 0, 14);
+    int arr[] = {5,8,3,10,4,-9,2,45,-37,1,3,-5,89,-35,76};
+    int n = sizeof(arr)/sizeof(arr[0]);
 
-    for(int i = 0; i < 15; i++)
+    quickSort(arr, 0, n-1);
+
+    for(int i = 0; i < n; i++)
         cout<<arr[i]<<"\t";
     return 0;
 }

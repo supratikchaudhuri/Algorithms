@@ -1,8 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-
-
 class Solution {
     public:
     void subsetSums(int arr[], int l, int r, int sum, int& count) {
