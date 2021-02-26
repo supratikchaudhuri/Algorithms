@@ -41,8 +41,9 @@ double fractionalKnapsack(int W, struct Item arr[], int n) {
   
 // Driver code 
 int main() { 
-    int W = 20; //    Weight of knapsack 
-    Item arr[] = { { 60, 10 }, { 100, 20 }, { 120, 30 }, { 40, 40 } };  
+    int W = 45; //    Weight of knapsack 
+    Item arr[] = { {22,24}, {37,15}, {14, 10}, {19, 8}, {15,11} };  
+    // Item arr[] = { { 60, 10 }, { 100, 20 }, { 120, 30 }, { 40, 40 } };  
     // Item arr[] = { { 25,18 }, { 24,15 }, { 15,10 }};  
   
     int n = sizeof(arr) / sizeof(arr[0]); 
