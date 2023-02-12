@@ -1,7 +1,7 @@
 // LC1296 Divide Array in Sets of K Consecutive Numbers
 #include<bits/stdc++.h>
 using namespace std;
-
+//
 class Solution {
     public:
     vector<vector<int>> isPossibleDivide(vector<int>& nums, int k) {

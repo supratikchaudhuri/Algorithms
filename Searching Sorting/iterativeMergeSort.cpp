@@ -9,10 +9,10 @@ void printArray(vector<int> A) {
 vector<int> merge(vector<int> A, int l, int m, int r) {
     vector<int> temp = A;
     int i = l, j = m + 1, k = l;
-    // cout<<endl<<"------------------------------------"<<endl;
-    // for(int x = l; x <= r; x++)
-    //     cout<<A[x]<<" ";
-    // cout<<endl;
+    cout<<endl<<"------------------------------------"<<endl;
+    for(int x = l; x <= r; x++)
+        cout<<A[x]<<" ";
+    cout<<endl;
 
     while(i <= m && j <= r) {
         if(A[i] <= A[j])
@@ -27,7 +27,7 @@ vector<int> merge(vector<int> A, int l, int m, int r) {
     while(j <= r)
         temp[k++] = A[j++];
     
-    // printArray(temp);
+    printArray(temp);
     // cout<<"------------------------------------";
     return temp;
 }
@@ -49,13 +49,21 @@ void mergeSort(vector<int>& A) {
 }
 
 int main() {
-    vector<int> A = {5,14,-1,7,23,14,44,1312,42,-1,0,0,11,10,99,100};
-  
+    // vector<int> A = {5,14,-1,7,23,14,44,1312,42,-1,0,0,11,10,99,100};
+    // vector<int> A = {5,14,-1,7,23,14,44,1312,42,-1,0,0,11,10,99,100, 103, 2147483647};
+    vector<int> A = {5,14,-1,7,23,0};
+    bool odd = false;
     cout << "Array before sorting: \n";
+    if(A.size() % 2 == 1) {
+        A.push_back(INT_MAX);
+        odd = true;
+    }
     printArray(A);
   
     mergeSort(A);
-  
+    if(odd)
+        A.pop_back();
+
     cout << "\n\nArray after sorting: \n";
     printArray(A);
 

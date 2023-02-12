@@ -3,28 +3,26 @@ using namespace std;
 
 #define ll long long
 
-void solve() {
-   int n; cin >> n;
-   vector<int> arr(n);
-   for(int i = 0; i < n; i++)
-      cin >> arr[i];
+vector<int> denominations = {25, 10, 5, 1};
 
-   vector<ll> dp(n);
-   dp[0] = arr[0];
-
-   for(int i = 0; i < n; i++) {
-      if(i + arr[i] < n)
-         dp[i+arr[i]] = max(dp[i+arr[i]], max(dp[i], (ll)arr[i]) + arr[i+arr[i]]);
-      if(i > 0)
-         dp[i] = max(dp[i], max((ll)arr[i], dp[i-1]));
+int coinChange(int n) {
+   int coins = 0;
+   int i = 0;
+   while(n != 0) {
+      while(n >= denominations[i]) {
+         n -= denominations[i];
+         coins++;
+      }
+      
+      i++;
    }
-   cout<<dp[n-1]<<endl;
+   return coins;
 }
 
 int main() {
-   int t; cin >> t;
-    while(t--) {
-        solve();
-    }
-    return 0;
+   cout<<coinChange(36)<<endl;
+   cout<<coinChange(37)<<endl;
+   cout<<coinChange(38)<<endl;
+   cout<<coinChange(39)<<endl;
+   cout<<coinChange(40)<<endl;
 }

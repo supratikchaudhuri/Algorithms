@@ -1,19 +1,31 @@
 #include<bits/stdc++.h>
 using namespace std;
-typedef ll long long;
+typedef long long ll;
 
-int subsetSum(int arr[], int n, int a, int b) {
-    ll sum = 0;
-    rec()
+int minStops (vector<int> A, int m) {
+    int start = 0;
+    int stops = 0;
+    int last_stop = 0;
+    int max_dist = last_stop + m;
+    
+
+   for(int i = 0; i < A.size(); i++) {
+        while(i < A.size() && A[i] <= max_dist) {
+            i++;
+        }
+
+        last_stop = A[i-1];
+        start = last_stop;
+        max_dist = last_stop + m;
+        stops++;
+    }
+    return stops;
 }
 
 int main() {
-    int n, a, b;
-    cin >> n >> a >> b;
-    int arr[n];
-    for(int i = 0; i < n; i++) {
-        cin >> arr[i];
-    }
+    vector<int> A = {1, 2, 5, 6, 7, 10};
+    cout<<minStops(A, 4);
 
-    cout<<subsetSum(arr, n, a, b);
 }
+
+

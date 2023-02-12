@@ -1,73 +1,63 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-#define ll long long
-
-void solve() {
-    int n; cin >> n;
-    vector<int> arr(n);
-    for(int i = 0; i < n; i++) 
-    {
-        cin >> arr[i];
+class Solution {
+    
+    int lower_bound(vector<int> arr, int l, int r, int x) {
+        while(l < r) {
+            int m = (l+r) / 2;
+            
+            if(arr[m] >= x)
+                r = m;
+            else
+                l = m+1;
+        }
+        return l;
     }
-
-    priority_queue<int> odds, evens;
-    for(int i : arr) {
-        if(i & 1)
-            odds.push(i);
-        else
-            evens.push(i);
-    }
-
-    ll alice = 0, bob = 0;
-    int f = 1;
-    while(!odds.empty() && !evens.empty()) {
-        if(f) {
-            if(evens.top() >=odds.top()) {
-                alice += evens.top(); evens.pop();
-            }
-            else{
-                odds.pop();
+    
+public:
+    vector<int> LIS(vector<int>& A) {
+        int n = A.size();
+        
+        vector<int> temp;
+        temp.push_back(A[0]);
+        
+        for(int i = 1; i < n; i++) {
+            if(A[i] > temp.back())
+                temp.push_back(A[i]);
+            else {
+                int idx = lower_bound(temp, 0, temp.size()-1, A[i]);
+                temp[idx] = A[i];
             }
         }
-        else {
-            if(evens.top() <= odds.top()) {
-                bob += odds.top(); odds.pop();
+
+        vector<int> res(temp.size(), 0);
+        res[res.size()-1] = A[n-1];
+
+        for(int i = n - 2, k = temp.size() - 1; i >= 0; i--) {
+            if(A[i] >= res[k] and A[i] < res[k+1]) {
+                res[k] = A[i];
+                continue;
             }
-            else{
-                evens.pop();
-            }
+            
+            else    
+                res[--k] = A[i];
         }
-        f = !f;
+
+        return res;
     }
-
-    while(!odds.empty()) {
-        if(!f) 
-            bob += odds.top();
-
-        odds.pop();
-        f = !f;
-    }
-    while(!evens.empty()) {
-        if(f) 
-            alice += evens.top();
-
-        evens.pop();
-        f = !f;
-    }
-
-    if(alice > bob)
-        cout<< "Alice"<<endl;
-    else if (alice == bob)
-        cout<<"Tie"<<endl;
-    else
-        cout<<"Bob"<<endl;    
-}
+};
 
 int main() {
-    int t; cin >> t;
-    while(t--) {
-        solve();
-    }
+    // vector<int> A = {2,5,7,1,2,3,4,8,6,10,2,13};
+    // vector<int> A = {2,5,7,1,2,3,4,8,6,10,2,13};
+    // vector<int> A = {2,5,7,1,2,3,4,8,6,10,2,13};
+    vector<int> A = {2,5,7,1};
+    Solution ob;
+    vector<int> res = ob.LIS(A);
+
+    for(int i : res)
+        cout<<i<<" ";
+
     return 0;
 }
