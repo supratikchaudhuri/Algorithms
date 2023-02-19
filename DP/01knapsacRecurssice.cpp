@@ -37,7 +37,7 @@ int knapsackMEMO(int weights[], int profits[], int w, int i, vector<vector<int>>
 }
 
 //O(n*w)
-int knapsackDP(int weights[], int profits[], int w, int n, vector<vector<int>> &dp) {
+int knapsackDP(vector<int> weights, vector<int> profits, int w, int n, vector<vector<int>> &dp) {
     for(int i = 0; i <= n; i++) {
         for(int j = 0; j <= w; j++) {
             if(i == 0 || j == 0)
@@ -57,8 +57,8 @@ int knapsackDP(int weights[], int profits[], int w, int n, vector<vector<int>> &
 int main () {
 
     int n = 4, w = 21;
-    int weights[n] = {6,3,5,9};
-    int profits[n] = {18,20,14,18};
+    vector<int> weights = {6,3,5,9};
+    vector<int> profits = {18,20,14,18};
 
     cout<< "Max Profit: " << knapsack(weights, profits, w, n-1) << "\n";
 
