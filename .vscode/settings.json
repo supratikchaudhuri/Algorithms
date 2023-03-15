@@ -3,6 +3,7 @@
     "files.associations": {
         "vector": "cpp",
         "chrono": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "unordered_map": "cpp"
     }
 }
