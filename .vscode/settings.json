@@ -4,6 +4,8 @@
         "vector": "cpp",
         "chrono": "cpp",
         "variant": "cpp",
-        "unordered_map": "cpp"
+        "unordered_map": "cpp",
+        "__tree": "cpp",
+        "map": "cpp"
     }
 }
