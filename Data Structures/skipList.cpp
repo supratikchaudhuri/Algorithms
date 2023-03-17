@@ -14,9 +14,12 @@ struct Node {
 
 class Skiplist {
     Node* head;
+
 public:
+    int size;
     Skiplist() {
         head = new Node(-1, NULL, NULL);
+        size = 0;
     }
 
     
@@ -62,6 +65,7 @@ public:
         if(insertUp) {
             head = new Node(-1, new Node(num, NULL, downNode), head);
         }
+        size++;
     }
     
     bool erase(int n) {
@@ -74,6 +78,7 @@ public:
             if(p->next && p->next->val == n) {
                 found = true;
                 p->next = p->next->next;
+                size--;
             }
             
             p = p->down;
@@ -98,17 +103,6 @@ public:
         }
     }
 
-    int size() {
-        Node* p = head;
-        int size = 0;
-
-        while(p->down)
-            p = p->down;
-        while(p->next) 
-            size++, p = p->next;
-        
-        return size;
-    }
 };
 
 int main() {
@@ -138,7 +132,7 @@ int main() {
                 if(!res.first)
                     cout<<"Item NOT Found\n";
                 else {
-                    cout<<"Item found in list in "<<res.second.size()<<"/"<<sl.size()<<  " operations\n";
+                    cout<<"Item found in list in "<<res.second.size()<<"/"<<sl.size<<  " operations\n";
                     cout<< "OPERATIONS: \n";
                     for(string op : res.second)
                         cout<<op<<" -> ";  
