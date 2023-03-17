@@ -65,6 +65,7 @@ class HashMap {
         int h = hash(key);
         Node* node = map[h];
 
+        // increase count if key found, or else do nothing
         for(; node != NULL; node = node->next) {
             if(node->key == key) {
                 node->count++;

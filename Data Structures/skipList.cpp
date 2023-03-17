@@ -18,18 +18,24 @@ public:
     Skiplist() {
         head = new Node(-1, NULL, NULL);
     }
+
     
-    bool search(int target) {
+
+    pair<bool, vector<string>> search(int target) {
         Node* p = head;
+        vector<string> operations;
 
         while(p) {
-            while(p->next && p->next->val <= target)
+            while(p->next && p->next->val <= target) {
                 p = p->next;
+                operations.push_back("RIGHT");
+            }
             if(p->val == target)
-                return true;
+                return {true, operations};
             p = p->down;
+            operations.push_back("DOWN");
         }
-        return false;
+        return {false, {}};
     }
     
     void add(int num) {
@@ -74,6 +80,35 @@ public:
         }
         return found;
     }
+
+    void printSkiplist() {
+        Node* p = head;
+
+        while(p) {
+            Node* downNode = p->down;
+
+            // move to next node because start is a dummy node
+            p = p->next;
+            for(; p != NULL; p = p->next) {
+                cout<<p->val<<"  ";
+            }
+            cout<<"\n";
+
+            p = downNode;
+        }
+    }
+
+    int size() {
+        Node* p = head;
+        int size = 0;
+
+        while(p->down)
+            p = p->down;
+        while(p->next) 
+            size++, p = p->next;
+        
+        return size;
+    }
 };
 
 int main() {
@@ -81,36 +116,51 @@ int main() {
     unordered_set<int> set;
     int input; 
     while(1) {
-        cout<< "\n\nChoose Skiplist operation: \n1. Insert\n2. Search\n3. Delete\n4. Quit\n";
+        cout<<"\n\n----------------------------------------------\n\n";
+        cout<< "\n\nChoose Skiplist operation: \n1. Insert\n2. Search\n3. Delete\n4. Print Skiplist\n5. Quit\n\nOperation: ";
         
         cin >> input;
 
         switch (input) {
             int n;
-        case 1:
-            cout<< "Enter number to add: ";
-            cin >> n;
-            sl.add(n);
-            cout<<"\n Number added successfully!\n";
-            break;
-        case 2:
-            cout<< "Enter Number to search: ";
-            cin >> n;
-            cout<< "Number " <<(sl.search(n) == true ? "" : "NOT" )<< " found\n";
-            break;
-        case 3: 
-            cout<<"Enter number to delete: ";
-            cin >> n;
-            cout<< (sl.erase(n) ? "Number deleted successfully!\n" : "Number doesn't exists!\n");
-            break;
-        case 4:
-            exit(0);
-        default:
-            break;
+            case 1: {
+                cout<< "Enter number to add: ";
+                cin >> n;
+                sl.add(n);
+                cout<<"\n Number added successfully!\n";
+                break;
+            }
+            case 2: {
+                cout<< "Enter Number to search: ";
+                cin >> n;
+                auto res = sl.search(n);
+
+                if(!res.first)
+                    cout<<"Item NOT Found\n";
+                else {
+                    cout<<"Item found in list in "<<res.second.size()<<"/"<<sl.size()<<  " operations\n";
+                    cout<< "OPERATIONS: \n";
+                    for(string op : res.second)
+                        cout<<op<<" -> ";  
+                }
+                break;
+            }
+            case 3: {
+                cout<<"Enter number to delete: ";
+                cin >> n;
+                cout<< (sl.erase(n) ? "Number deleted successfully!\n" : "Number doesn't exists!\n");
+                break;
+            }
+            case 4: {
+                sl.printSkiplist();
+                break;
+            }
+            case 5:
+                exit(0);
+            default:
+                break;
         }
     }
 
     return 0;
 }
-
-// g++ -std=c++11 <filename>

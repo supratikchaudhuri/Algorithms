@@ -2,29 +2,31 @@
 using namespace std;
 typedef long long ll;
 
-int minStops (vector<int> A, int m) {
-    int start = 0;
-    int stops = 0;
-    int last_stop = 0;
-    int max_dist = last_stop + m;
-    
+struct Sample {
+    string name;
+    int age;
 
-   for(int i = 0; i < A.size(); i++) {
-        while(i < A.size() && A[i] <= max_dist) {
-            i++;
-        }
-
-        last_stop = A[i-1];
-        start = last_stop;
-        max_dist = last_stop + m;
-        stops++;
-    }
-    return stops;
-}
+    Sample(string name, int age) {
+        this->name = name;
+        this->age = age;
+    } 
+};
 
 int main() {
-    vector<int> A = {1, 2, 5, 6, 7, 10};
-    cout<<minStops(A, 4);
+    vector<Sample*> A;
+    vector<string> names = {"sam", "rob", "tom", "eric", "lisa"};
+
+    for(int i = 0; i < 5; i++) {
+        A.push_back(new Sample(names[i], i + 25));
+        
+    }
+
+    for(auto s : A) {
+        cout<<s->name<<" "<<s->age<<endl;
+    }
+
+    Sample s = new Sample("Diane", 48);
+    cout<<"\n\n\n"<<s.name<<"    "<<s.age;
 
 }
 
