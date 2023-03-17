@@ -21,7 +21,7 @@ class HashMap {
     const static int MAXSIZE = 1000;
     const static int mult = 12582917;
     Node* map[MAXSIZE] = {};
-
+    
     int hash (string s) {
         long key = 0;
 
@@ -123,6 +123,21 @@ class HashMap {
         return words;
     } 
 
+    unordered_map<int, int> chainLengthCount() {
+        unordered_map<int, int> res;
+        
+        for(int i = 0, len = 0; i < MAXSIZE; i++, len = 0) {
+            Node* p = map[i];
+            if(!p) continue;
+
+            for(; p != NULL; p = p->next) 
+                len++;
+    
+            res[len]++;
+        }
+        return res;
+    }
+
 };
 
 int main() {
@@ -139,7 +154,8 @@ int main() {
         cout<<"\n\nChoose Operation: \n"
         "1.Search word\n2. List all keys\n3. Insert word\n"
         "4. Increase word count\n5. Get word's hash\n6. Get map size\n"
-        "7. Get map collisions and longest chain length\n";
+        "7. Get map collisions and longest chain length\n"
+        "8. Get chain length counts\n";
         cin >> input;
         string s;
 
@@ -165,13 +181,7 @@ int main() {
             case 3: {
                 getWord(s);
                 int c = map.find(s);
-                if(!c) {
-                    map.insert(s, 1);
-                    cout<< s << " inseted in the hashmap!";
-                }
-                else    
-                    cout<< s << " already exists in the hashmap!";
-                
+                map.insert(s, c+1);
                 break;
             }
             case 4: {
@@ -195,6 +205,13 @@ int main() {
             }
             case 7: {
                 cout<<"Map collisions= "<<map.collisions<<" Longest chain length= "<<(map.size ? max(map.longest_chain, 1) : 0);
+                break;
+            }
+            case 8: {
+                auto lenMap = map.chainLengthCount();
+                cout<<"LENGHT\tCOUNT\n";
+                for(auto it: lenMap)
+                    cout<<it.first<<"\t"<<it.second<<endl;
                 break;
             }
             case 10:
