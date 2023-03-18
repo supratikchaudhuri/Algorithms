@@ -6,7 +6,6 @@ using namespace std;
 
 void getWord(string &s);
 
-
 int main() {
     HashMap map;
 
@@ -20,7 +19,7 @@ int main() {
     while(1) {
         cout<<"\n\nChoose Operation: \n"
         "1.Search word\n2. List all keys\n3. Insert word\n4. Delete Word\n"
-        "5. Increase word count\n6. Get word's hash\n7. Get map size\n"
+        "5. Increase word count\n6. Get variance\n7. Get map size\n"
         "8. Get map collisions and longest chain length\n"
         "9. Get chain length counts\n0. Press to exit\n";
         cin >> input;
@@ -40,12 +39,8 @@ int main() {
             case 2: {
                 vector<string> all_words = map.list_all_keys();
                 cout<<"Keys: "<<all_words.size()<<endl;
-                cout<<"\nWORD\t\tCOUNT"<<"\t\tHASH\n";
-                // for(string w: all_words) {
-                //     cout<<w<<"\t\t"<<map.find(w)<<"\t\t"<<map.getHash(w)<<endl;
-                // }
                 for(string w: all_words)
-                    cout<<w<<" ";
+                    cout<<w<<"  ,";
                 break;
             }
             case 3: {
@@ -72,8 +67,7 @@ int main() {
                 break;
             }
             case 6: {
-                getWord(s);
-                cout<< "Hash: "<< map.getHash(s);
+                cout<< "Mean: "<<map.getMean()<<" Variance: "<<map.getVariance();
                 break;
             }
             case 7: {
@@ -81,7 +75,8 @@ int main() {
                 break;
             }
             case 8: {
-                cout<<"Map collisions= "<<map.collisions<<" Longest chain length= "<<(map.size ? max(map.longest_chain, 1) : 0);
+                auto res = map.collisionsAndLongestChain();
+                cout<<"Map collisions= "<<res.first<<" Longest chain length= "<<res.second;
                 break;
             }
             case 9: {
@@ -97,10 +92,8 @@ int main() {
                 break;
         }
     }
-
     return 0;
 }
-
 
 void getWord(string &s) {
     cout << "Enter word: ";
