@@ -5,11 +5,16 @@ using namespace  std;
 
 string to_lower(string s) {
     string res = "";
+    int i = 0, j= s.length()-1; 
+    while(s[i] == '\'') i++;
+    while(s[j] == '\'') j--;
 
-    for(char c : s)
+    for(; i <= j; i++) {
+        char &c = s[i];
         if(isalpha(c)) res += tolower(c);
-    
-    return res;
+    }
+    // cout<<res<<endl;
+    return res.length() >= 1 ? res : "";
 }
 
 void replaceNoAlphaAndUpperCaseChars(string &s) {
@@ -40,8 +45,10 @@ void readFileAndPutInMap(string fileName, T &map) {
         if(str.length() == 0) continue;
 
         while(iss >> word) {
+            word = to_lower(word);
+            if(word.length() == 0) continue;
             int c = map.find(word);
-            map.insert(to_lower(word), c+1);
+            map.insert(word, c+1);
         }
     }
 

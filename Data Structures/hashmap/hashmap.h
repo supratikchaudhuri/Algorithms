@@ -12,41 +12,29 @@ struct Node {
 
 class HashMap {
     const static int MAXSIZE = 30;
-    const static int mult = 12582917;
+    const static long long mult = 12582917;
     Node* map[MAXSIZE] = {};
     
     int hash (string s) {
         long key = 0;
 
         for(int i = 0; i < s.length(); i++) {
-            if(!isalpha(s[i]))
-                key -= pow(s[0], 3);
             key += ((int)s[i] + (i+2)*(i+3)*(i*i)*s[i] * 1009L) ;
         }
 
         return (int)(key * mult % MAXSIZE);
     }
 
-    // int hash (string s) {
-    //     uint64_t hash = 0x811c9dc5;
-    //     uint64_t prime = 0x1000193;
-
-    //     for(int i = 0; i < s.size(); ++i) {
-    //         hash *= s[i] * s[i] * prime;
-    //         hash += (hash << 10);
-    //         hash ^= (hash >> 6);
-    //     }
-    //     hash += (hash << 3);
-    //     hash ^= (hash >> 11);
-    //     hash += (hash << 15);
-
-    //     return hash * prime % MAXSIZE;
-    // }
+    int getChainLen(Node* p) {
+        int len = 0;
+        for(; p != NULL; p = p->next) {
+            len++;
+        }
+        return len;
+    }
 
     public:
     int size = 0;
-    int collisions = 0;
-    int longest_chain = 0;
 
     int getHash(string word) {
         return hash(word);
@@ -72,25 +60,14 @@ class HashMap {
             }
         }
     }
-
-
-    
+  
     void insert(string key, int count) {
         int h = hash(key);
         remove(key);
 
-        if(map[h] != NULL) {
-            collisions++;
-            Node *p = map[h];
-
-            for(int chainLen = 0; p != NULL; p = p->next)
-                longest_chain = max(longest_chain, ++chainLen);
-        }
-
         map[h] = new Node(key, count, map[h]);
         size++;
     }
-
 
     int increase(string key) {
         int h = hash(key);
@@ -134,16 +111,45 @@ class HashMap {
     unordered_map<int, int> chainLengthCount() {
         unordered_map<int, int> res;
         
+        for(int i = 0; i < MAXSIZE; i++) {
+            Node* p = map[i];
+            if(!p) continue;
+
+            int len = getChainLen(map[i]);    
+            res[len]++;
+        }
+        return res;
+    }
+
+    pair<int, int> collisionsAndLongestChain() {
+        int collisions = 0, maxLen = 0;
+
+        for(int i = 0; i < MAXSIZE; i++) {
+            Node* p = map[i];
+
+            int len = getChainLen(map[i]);
+            maxLen = max(maxLen, len);
+            collisions += len - 1;
+        }
+        return {collisions, maxLen};
+    } 
+
+    float getVariance() {
+        float alpha = size / MAXSIZE;
+        float sum = 0.0;
+
         for(int i = 0, len = 0; i < MAXSIZE; i++, len = 0) {
             Node* p = map[i];
             if(!p) continue;
 
-            for(; p != NULL; p = p->next) 
-                len++;
-    
-            res[len]++;
+            sum += pow(alpha - getChainLen(map[i]), 2);
         }
-        return res;
+
+        return sum / MAXSIZE;
+    }
+
+    float getMean() {
+        return size / MAXSIZE;
     }
 
 };
