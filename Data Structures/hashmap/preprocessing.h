@@ -7,17 +7,23 @@ string to_lower(string s) {
     string res = "";
 
     for(char c : s)
-        res += tolower(c);
+        if(isalpha(c)) res += tolower(c);
     
     return res;
 }
 
 void replaceNoAlphaAndUpperCaseChars(string &s) {
-    for(char &c : s)
-        if(!isalpha(c)) 
+    
+    for(int i = 0; i < s.length(); i++) {
+        char &c = s[i];
+
+        if(c == '\'')
+            continue;
+        else if(!isalpha(c)) 
             c = ' ';
         else    
             c = tolower(c);
+    }
 }
 
 template <typename T>
@@ -35,7 +41,7 @@ void readFileAndPutInMap(string fileName, T &map) {
 
         while(iss >> word) {
             int c = map.find(word);
-            map.insert(word, c+1);
+            map.insert(to_lower(word), c+1);
         }
     }
 

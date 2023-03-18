@@ -22,8 +22,6 @@ public:
         size = 0;
     }
 
-    
-
     pair<bool, vector<string>> search(int target) {
         Node* p = head;
         vector<string> operations;
@@ -110,7 +108,6 @@ int main() {
     unordered_set<int> set;
     int input; 
     while(1) {
-        cout<<"\n\n----------------------------------------------\n\n";
         cout<< "\n\nChoose Skiplist operation: \n1. Insert\n2. Search\n3. Delete\n4. Print Skiplist\n5. Quit\n\nOperation: ";
         
         cin >> input;
