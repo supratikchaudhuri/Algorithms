@@ -71,7 +71,7 @@ int main() {
                 break;
             }
             case 7: {
-                cout<<"Map size = "<<map.size;
+                map.printIdxLen();
                 break;
             }
             case 8: {

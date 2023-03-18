@@ -18,7 +18,7 @@ class Skiplist {
 public:
     int size;
     Skiplist() {
-        head = new Node(-1, NULL, NULL);
+        head = new Node(INT_MIN, NULL, NULL);
         size = 0;
     }
 
@@ -61,7 +61,7 @@ public:
             insertUp = (rand() & 1) == 0;
         }
         if(insertUp) {
-            head = new Node(-1, new Node(num, NULL, downNode), head);
+            head = new Node(INT_MIN, new Node(num, NULL, downNode), head);
         }
         size++;
     }
@@ -117,8 +117,13 @@ int main() {
             case 1: {
                 cout<< "Enter number to add: ";
                 cin >> n;
-                sl.add(n);
-                cout<<"\n Number added successfully!\n";
+                auto found = sl.search(n);
+                if(found.first)
+                    cout<<"\n Number already exits!\n";
+                else {
+                    sl.add(n);
+                    cout<<"\n Number added successfully!\n";
+                }
                 break;
             }
             case 2: {

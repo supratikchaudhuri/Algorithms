@@ -11,18 +11,19 @@ struct Node {
 };
 
 class HashMap {
-    const static int MAXSIZE = 30;
-    const static long long mult = 12582917;
-    Node* map[MAXSIZE] = {};
+    const static int MAXSIZE = 1000;
     
+    Node* map[MAXSIZE] = {};
+
     int hash (string s) {
-        long key = 0;
-
-        for(int i = 0; i < s.length(); i++) {
-            key += ((int)s[i] + (i+2)*(i+3)*(i*i)*s[i] * 1009L) ;
+        const int POWER = 37;
+        long long hash = 0;
+        long long p_pow = 1;
+        for (char c : s) {
+            hash = (hash + (c - 'a' + 1) * p_pow) % MAXSIZE;
+            p_pow = (p_pow * POWER) % MAXSIZE;
         }
-
-        return (int)(key * mult % MAXSIZE);
+        return hash;
     }
 
     int getChainLen(Node* p) {
@@ -140,7 +141,6 @@ class HashMap {
 
         for(int i = 0, len = 0; i < MAXSIZE; i++, len = 0) {
             Node* p = map[i];
-            if(!p) continue;
 
             sum += pow(alpha - getChainLen(map[i]), 2);
         }
@@ -150,6 +150,18 @@ class HashMap {
 
     float getMean() {
         return size / MAXSIZE;
+    }
+
+    void printIdxLen() {
+        for(int i = 0; i < MAXSIZE; i++) {
+            Node *p = map[i];
+
+            int len = getChainLen(p);
+
+            cout <<" INDEX: "<<i<< " chain lenght: "<< len<<endl;
+        }
+
+        return;
     }
 
 };
