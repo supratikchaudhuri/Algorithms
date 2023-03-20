@@ -1,8 +1,14 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-const string RED = "red";
-const string BLACK = "black";
+const static string RED = "RED";
+const static string BLACK = "BLACK";
+
+template<typename T>
+T getInput(T n) {
+    cin >> n;
+    return n;
+}
 
 struct Node {
     int val;
@@ -66,7 +72,7 @@ class RedBlackTree {
 
     void insertFixUp(Node* cur) {
         Node* u;
-        cout<<"fixing "<<cur->val<<endl;
+        
         while(cur->parent->color == RED) {
             if(cur->parent == cur->parent->parent->left) {
                 u = cur->parent->parent->right;
@@ -123,8 +129,9 @@ class RedBlackTree {
     }
 
     void inOrder(Node* node) {
-        if(!node)
+        if(node == NULL || node == TNULL)
             return;
+
 
         inOrder(node->left);
         cout<<node->val<<" ";
@@ -135,7 +142,7 @@ class RedBlackTree {
         if(!node)
             return NULL;
 
-        if(!node->left && !node->right)
+        if(node->left == TNULL && node->right == TNULL)
             return node;
         
         return minimum(node->left);
@@ -145,14 +152,14 @@ class RedBlackTree {
         if(!node)
             return NULL;
 
-        if(!node->left && !node->right)
+        if(node->left == TNULL && node->right == TNULL)
             return node;
     
         return maximum(node->right);
     }
 
     Node* search(Node* node, int target) {
-        if(!node)
+        if(node == NULL || node == TNULL)
             return NULL;
 
         if(node->val == target) 
@@ -163,26 +170,41 @@ class RedBlackTree {
             return search(node->right, target);
     }
 
-    Node* predecessor(Node* node, int key) {
-        Node* cur = search(root, key);
-        if(!cur)
-            return NULL;
-        
-        if(cur->right)
-            return maximum(cur->right);
-        else    
-            return maximum(cur->left);        
+    Node* predecessor(int key, Node* cur, Node* pred) {
+        if(cur == NULL || cur == TNULL)
+            return pred;
+
+        if(cur->val == key) {
+            if(cur->left != TNULL) {
+                return maximum(cur->left);
+            }
+        }
+        else if(cur->val > key) 
+            return predecessor(key, cur->left, pred);
+        else {
+            pred = cur;
+            return predecessor(key, cur->right, pred);
+        }
+
+        return pred;
     }
 
-    Node* successor(int key) {
-        Node* cur = search(root, key);
-        if(!cur)
-            return NULL;
+    Node* successor(int key, Node* cur, Node* succ) {
+        if(cur == NULL)
+            return succ;
         
-        if(cur->left)
-            return minimum(cur->left);
+        if(cur->val == key) {
+            if(cur->right != TNULL)
+                return minimum(cur->right);
+        }
+        else if(cur->val > key) {
+            succ = cur;
+            return successor(key, cur->left, succ);
+        }
         else    
-            return minimum(cur->right);     
+            return successor(key, cur->right, succ);
+        
+        return succ;
     }
 
     int height(Node* root) {
@@ -196,6 +218,8 @@ class RedBlackTree {
     }
 
     void printTree() {
+        if(!root) return;
+
         queue<Node*> q;
         q.push(root);
 
@@ -250,20 +274,121 @@ class RedBlackTree {
         insertFixUp(new_node);
     }
 
+    Node* remove(Node* node, int key) {
+        if(node == NULL || node == TNULL)
+            return NULL;
+
+        if(node->val > key)
+            node->left = remove(node->left, key);
+        else if(node->val < key)
+            node->right = remove(node->right, key);
+        else {
+            if(node->left == TNULL && node->right == TNULL)
+                return TNULL;
+            
+            if(node->left == TNULL || node->right == TNULL)
+                return node->left != TNULL ? node->left : node->right;
+            
+            Node* temp = minimum(node->right);
+            temp->left = node->left;
+            cout<<node->val<<" "<<temp->val<<"\n";
+            return node->right;
+        }
+        return node;
+    }
+
 };
 
 int main() {
-    // vector<int> A = {4,3,6,1,77,23,87,38,424,-123,-645};
+    vector<int> A = {4,3,6,1,77,23,87,38,424,-123,-645};
     // vector<int> A = {4,3,6,1,77};
-    vector<int> A = {-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8};
+    // vector<int> A = {-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8};
+    // vector<int> A = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
     RedBlackTree bst;
     
     for(auto i : A)
         bst.insert(i);
-    
 
-    bst.printTree();
-    cout<<bst.height(bst.root);
+    while(1) {
+        cout<<"\n\n---------MENU-------\n"
+            "1.Sort items\n"
+            "2. Print Tree\n"
+            "3. Search Item\n"
+            "4. Find minimum\n"
+            "5. Find maximum\n"
+            "6. find Predecessor\n"
+            "7. Find Successor\n"
+            "8. Insert element\n"
+            "9. Delete element\n"
+            "Choose operation: ";
+
+        int input; cin >> input;
+        switch(input) {
+            int n;
+            case 1: {
+                bst.inOrder(bst.root);
+                break;
+            }
+            case 2: {
+                bst.printTree();
+                break;
+            }
+            case 3: {
+                cout<< "Enter element to search: ";
+                n = getInput(n);
+                auto res = bst.search(bst.root, n);
+                if(res) 
+                    cout<< "Node found! Node Color: "<<res->color;
+                else    
+                    cout<<"Element not found!";
+                break;
+            }
+            case 4: {
+                auto res = bst.minimum(bst.root);
+                if(res) cout<<"Minimum = "<<res->val;
+                else cout<<"Tree is empty";
+                break;
+            }
+            case 5: {
+                auto res = bst.maximum(bst.root);
+                if(res) cout<<"Maximum = "<<res->val;
+                else cout<<"Tree is empty";
+                break;
+            }
+            case 6: {
+                cout<<"Enter element: ";
+                n = getInput(n);
+                auto res = bst.predecessor(n, bst.root, nullptr);
+                if(res) cout<<"Predecessor of "<<n<<" = "<<res->val;
+                else cout<<"No predecessor for "<<n;
+                break;
+            }
+            case 7: {
+                cout<<"Enter element: ";
+                n = getInput(n);
+                auto res = bst.successor(n, bst.root, nullptr);
+                if(res) cout<<"Successor of "<<n<<" = "<<res->val;
+                else cout<<"No successor for "<<n;
+                break;
+            }
+            case 8: {
+                cout<< "Enter element to insert: ";
+                n = getInput(n);
+                bst.insert(n);
+                bst.printTree();
+                break;
+            }
+            case 9: {
+                cout<< "Enter element to delete: ";
+                n = getInput(n);
+                bst.root = bst.remove(bst.root, n);
+                bst.printTree();
+                break;
+            }
+            default:
+                exit(0);
+        }
+    }
 
     return 0;
 }
