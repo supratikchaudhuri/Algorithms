@@ -196,7 +196,7 @@ class RedBlackTree {
                     q.push(cur->right);
                 }
             }
-            cout<<endl;
+            cout<<endl<<endl;
         }
     }
 
@@ -300,10 +300,10 @@ class RedBlackTree {
 };
 
 int main() {
-    vector<int> A = {4,3,6,1,77,23,87,38,424,123,645};
+    // vector<int> A = {4,3,6,1,77,23,87,38,424,123,645};
     // vector<int> A = {4,3,6,1,77};
     // vector<int> A = {-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8};
-    // vector<int> A = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+    vector<int> A = {1,2,3,4,5,6,7,8,9};
     RedBlackTree bst;
     
     for(auto i : A)
@@ -322,6 +322,7 @@ int main() {
             "9. Delete element\n"
             "10. Left Rotate\n"
             "11. Right Rotate\n"
+            "12. Tree Height\n"
             "Choose operation: ";
 
         int input; cin >> input;
@@ -333,6 +334,7 @@ int main() {
             }
             case 2: {
                 bst.printTree();
+                cout<<"Tree height = "<<bst.height(bst.root);
                 break;
             }
             case 3: {
@@ -378,6 +380,7 @@ int main() {
                 n = getInput(n);
                 bst.insert(n);
                 bst.printTree();
+                cout<<"Tree height = "<<bst.height(bst.root);
                 break;
             }
             case 9: {
@@ -385,17 +388,23 @@ int main() {
                 n = getInput(n);
                 bst.root = bst.remove(bst.root, n);
                 bst.printTree();
+                cout<<"Tree height = "<<bst.height(bst.root);
                 break;
             }
             case 10: {
                 bst.leftRotate(bst.root);
                 bst.printTree();
+                cout<<"Tree height = "<<bst.height(bst.root);
                 break;
             }
             case 11: {
                 bst.rightRotate(bst.root);
                 bst.printTree();
+                cout<<"Tree height = "<<bst.height(bst.root);
                 break;
+            }
+            case 12: {
+                cout<<"Tree height = "<<bst.height(bst.root);
             }
             default:
                 exit(0);
