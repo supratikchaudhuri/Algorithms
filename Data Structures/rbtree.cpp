@@ -1,5 +1,5 @@
 // Implementing Red-Black Tree in C++
-
+#include<bits/stdc++.h>
 #include <iostream>
 using namespace std;
 
@@ -242,10 +242,10 @@ class RedBlackTree {
     if (root != TNULL) {
       cout << indent;
       if (last) {
-        cout << "R----";
+        cout << "R----  ";
         indent += "   ";
       } else {
-        cout << "L----";
+        cout << "L----  ";
         indent += "|  ";
       }
 
@@ -417,12 +417,15 @@ class RedBlackTree {
 
 int main() {
   RedBlackTree bst;
-  bst.insert(55);
-  bst.insert(40);
-  bst.insert(65);
-  bst.insert(60);
-  bst.insert(75);
-  bst.insert(57);
+  vector<int> A = {4,3,6,1,77,23,87,38,424,123,645};
+  for(int i : A)
+    bst.insert(i);
+  // bst.insert(55);
+  // bst.insert(40);
+  // bst.insert(65);
+  // bst.insert(60);
+  // bst.insert(75);
+  // bst.insert(57);
 
   bst.printTree();
   cout << endl

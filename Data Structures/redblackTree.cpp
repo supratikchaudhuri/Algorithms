@@ -1,6 +1,9 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+const string RED = "red";
+const string BLACK = "black";
+
 struct Node {
     int val;
     Node *parent;
@@ -19,7 +22,6 @@ struct Node {
 
 class RedBlackTree {
     private:
-    Node* root;
     Node* TNULL;
 
     void leftRotate(Node* x) {
@@ -62,14 +64,62 @@ class RedBlackTree {
         x->parent = y;
     }
 
-    void insertFixUp(Node* node) {
+    void insertFixUp(Node* cur) {
+        Node* u;
+        cout<<"fixing "<<cur->val<<endl;
+        while(cur->parent->color == RED) {
+            if(cur->parent == cur->parent->parent->left) {
+                u = cur->parent->parent->right;
 
+                if(u->color == RED) {
+                    u->color = BLACK;
+                    cur->parent->color = BLACK;
+                    cur->parent->parent->color = RED;
+                    cur = cur->parent->parent;
+                }
+                else {
+                    if(cur == cur->parent->right) {
+                        cur = cur->parent;
+                        leftRotate(cur);
+                    }
+                    cur->parent->color = BLACK;
+                    cur->parent->parent->color = RED;
+                    rightRotate(cur->parent->parent);
+                }
+            }
+            else {
+                u = cur->parent->parent->left;
+
+                if(u->color == RED) {
+                    u->color = BLACK;
+                    cur->parent->color = BLACK;
+                    cur->parent->parent->color = RED;
+                    cur = cur->parent->parent;
+                }
+                else {
+                    if(cur == cur->parent->left) {
+                        cur = cur->parent;
+                        rightRotate(cur);
+                    }
+                    cur->parent->color = BLACK;
+                    cur->parent->parent->color = RED;
+                    leftRotate(cur->parent->parent);
+                }
+            }
+            if(cur == root)
+                break;
+        }
+
+        root->color = BLACK;
+        return;
     }
 
     public:
+     Node* root;
+
     RedBlackTree() {
-        TNULL = new Node(-1, NULL, NULL, NULL, "black");
-        root = TNULL;
+        TNULL = new Node(INT_MIN, NULL, NULL, NULL, BLACK);
+        root = NULL;
     }
 
     void inOrder(Node* node) {
@@ -135,36 +185,48 @@ class RedBlackTree {
             return minimum(cur->right);     
     }
 
-    void printTree(Node* node) {
+    int height(Node* root) {
+        Node* cur = root;
+
+        if(cur == TNULL)
+            return 0;
+
+        return 1 + max(height(cur->left), height(cur->right));
+        
+    }
+
+    void printTree() {
         queue<Node*> q;
-        q.push(node);
+        q.push(root);
 
         while(!q.empty()) {
             int s = q.size();
             while(s--) {
                 auto cur = q.front(); q.pop();
-                cout<<cur->val<<" ("<<cur->color<<")\t";
-
-                if(cur->left)
+                if(cur == TNULL) {
+                    cout<< "X "<<" ("<<cur->color<<")\t";
+                }
+                else {
+                    cout<<cur->val<<" ("<<cur->color<<")\t";
                     q.push(cur->left);
-                if(cur->right)
                     q.push(cur->right);
+                }
             }
             cout<<endl;
         }
     }
 
     void insert(int key) {
-        Node* new_node = new Node(key, NULL, NULL, NULL, "red");
+        Node* new_node = new Node(key, NULL, TNULL, TNULL, RED);
         Node* cur = root, *prev = NULL;
 
         if(!cur) {
             this->root = new_node;
-            root->color = "black";
+            root->color = BLACK;
             return;
         } 
 
-        while(cur) {
+        while(cur != TNULL) {
             prev = cur;
 
             if(key < cur->val)
@@ -173,8 +235,10 @@ class RedBlackTree {
                 cur = cur->right;
         }
 
-        new_node->parent = prev;
+        if(prev->val == key)
+            return;
 
+        new_node->parent = prev;
         if(prev->val > key)
             prev->left = new_node;
         else    
@@ -189,8 +253,17 @@ class RedBlackTree {
 };
 
 int main() {
+    // vector<int> A = {4,3,6,1,77,23,87,38,424,-123,-645};
+    // vector<int> A = {4,3,6,1,77};
+    vector<int> A = {-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8};
+    RedBlackTree bst;
+    
+    for(auto i : A)
+        bst.insert(i);
+    
 
-
+    bst.printTree();
+    cout<<bst.height(bst.root);
 
     return 0;
 }
