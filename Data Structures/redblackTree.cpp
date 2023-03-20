@@ -30,46 +30,6 @@ class RedBlackTree {
     private:
     Node* TNULL;
 
-    void leftRotate(Node* x) {
-        Node* y = x->right;
-        
-        x->right = y->left;
-        if (y->left != TNULL) 
-            y->left->parent = x;
-        
-        y->parent = x->parent;
-
-        if (x->parent == NULL) 
-            this->root = y;
-        else if (x == x->parent->left) 
-            x->parent->left = y;
-        else 
-            x->parent->right = y;
-        
-        y->left = x;
-        x->parent = y;
-    }
-
-    void rightRotate(Node* x) {
-        Node* y = x->left;
-        
-        x->left = y->right;
-        if (y->right != TNULL) 
-            y->right->parent = x;
-        
-        y->parent = x->parent;
-
-        if (x->parent == NULL) 
-            this->root = y;
-        else if (x == x->parent->right) 
-            x->parent->right = y;
-        else 
-            x->parent->left = y;
-        
-        y->right = x;
-        x->parent = y;
-    }
-
     void insertFixUp(Node* cur) {
         Node* u;
         
@@ -240,6 +200,46 @@ class RedBlackTree {
         }
     }
 
+    void leftRotate(Node* x) {
+        Node* y = x->right;
+        
+        x->right = y->left;
+        if (y->left != TNULL) 
+            y->left->parent = x;
+        
+        y->parent = x->parent;
+
+        if (x->parent == NULL) 
+            this->root = y;
+        else if (x == x->parent->left) 
+            x->parent->left = y;
+        else 
+            x->parent->right = y;
+        
+        y->left = x;
+        x->parent = y;
+    }
+
+    void rightRotate(Node* x) {
+        Node* y = x->left;
+        
+        x->left = y->right;
+        if (y->right != TNULL) 
+            y->right->parent = x;
+        
+        y->parent = x->parent;
+
+        if (x->parent == NULL) 
+            this->root = y;
+        else if (x == x->parent->right) 
+            x->parent->right = y;
+        else 
+            x->parent->left = y;
+        
+        y->right = x;
+        x->parent = y;
+    }
+
     void insert(int key) {
         Node* new_node = new Node(key, NULL, TNULL, TNULL, RED);
         Node* cur = root, *prev = NULL;
@@ -291,7 +291,7 @@ class RedBlackTree {
             
             Node* temp = minimum(node->right);
             temp->left = node->left;
-            cout<<node->val<<" "<<temp->val<<"\n";
+            // cout<<node->val<<" "<<temp->val<<"\n";
             return node->right;
         }
         return node;
@@ -300,7 +300,7 @@ class RedBlackTree {
 };
 
 int main() {
-    vector<int> A = {4,3,6,1,77,23,87,38,424,-123,-645};
+    vector<int> A = {4,3,6,1,77,23,87,38,424,123,645};
     // vector<int> A = {4,3,6,1,77};
     // vector<int> A = {-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8};
     // vector<int> A = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
@@ -320,6 +320,8 @@ int main() {
             "7. Find Successor\n"
             "8. Insert element\n"
             "9. Delete element\n"
+            "10. Left Rotate\n"
+            "11. Right Rotate\n"
             "Choose operation: ";
 
         int input; cin >> input;
@@ -382,6 +384,16 @@ int main() {
                 cout<< "Enter element to delete: ";
                 n = getInput(n);
                 bst.root = bst.remove(bst.root, n);
+                bst.printTree();
+                break;
+            }
+            case 10: {
+                bst.leftRotate(bst.root);
+                bst.printTree();
+                break;
+            }
+            case 11: {
+                bst.rightRotate(bst.root);
                 bst.printTree();
                 break;
             }
