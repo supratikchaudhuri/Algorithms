@@ -303,7 +303,7 @@ int main() {
     // vector<int> A = {4,3,6,1,77,23,87,38,424,123,645};
     // vector<int> A = {4,3,6,1,77};
     // vector<int> A = {-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8};
-    vector<int> A = {1,2,3,4,5,6,7,8,9};
+    vector<int> A = {5,10,15,20};
     RedBlackTree bst;
     
     for(auto i : A)
