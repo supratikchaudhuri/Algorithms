@@ -1,6 +1,12 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+template<typename T>
+T getInput(T n) {
+    cin >> n;
+    return n;
+}
+
 struct Node {
     int val;
     int degree;
@@ -200,7 +206,7 @@ public:
         return res;
     }
 
-    int decreseKey(int i, int j) {
+    int decreaseKey(int i, int j) {
         Node* p = search(getHead(), i);
         if(p == NULL)
             return 0;
@@ -221,7 +227,7 @@ public:
         if(p == NULL)
             return 0;
 
-        decreseKey(key, INT_MIN);
+        decreaseKey(key, INT_MIN);
         extractMin();
         return 1;
     }
@@ -263,19 +269,77 @@ public:
 int main() {
 
     vector<int> A = {1,2,3,4,5,6,7,8,9,10,11};
-    BinomialHeap h;
+    BinomialHeap heap;
 
-    for(int i : A)
-        h.insert(i);
+    int input;
+    while(1) {
+        cout<<"\n\n\nChoose operation on Binomial Heap: \n"
+            "0. Print Binomial heap\n"
+            "1. Insert element\n"
+            "2. Find minimum element\n"
+            "3. Extract minimum element\n"
+            "4. Delete element\n"
+            "5. Decrese key\n"
+            "Input: ";
+        cin >> input;
 
-    h.printHeap();
-    // cout<<h.getMinimum()->val;
-
-    // cout<<"Extracted: "<<h.extractMin()->val<<endl<<endl;
-    // h.printHeap();
-
-    h.remove(8);
-    h.printHeap();
+        switch (input) {
+            int n;
+            case 0: {
+                cout<<"\n\n--------------------------------\n\n";
+                heap.printHeap();
+                cout<<"\n\n--------------------------------\n\n";
+                break;
+            }
+            case 1: {
+                cout<<"Enter number to insert: ";
+                n = getInput(n);
+                heap.insert(n);
+                break;
+            }
+            case 2 : {
+                Node* res = heap.getMinimum();
+                if(res)
+                    cout<<"Minimum element: "<<res->val<<endl;
+                else    
+                    cout<<"Heap is empty!\n";
+                break;
+            }
+            case 3: {
+                Node* res = heap.extractMin();
+                if(res)
+                    cout<<"Element extracter: "<<res->val<<endl;
+                else
+                    cout<<"Heap is empty!\n";
+                break;
+            }
+            case 4: {
+                cout<<"Enter element to delete: ";
+                n = getInput(n);
+                int flag = heap.remove(n);
+                if(flag)
+                    cout<< "Element deleted successfully!"<<endl;
+                else 
+                    cout<<"Element doesn't exists."<<endl;
+                break;
+            }
+            case 5: {
+                cout<<"Enter element to decrese: ";
+                n = getInput(n);
+                cout<<"Enter new value after change: ";
+                int key = getInput(n);
+                int flag = heap.decreaseKey(n, key);
+                if(flag)
+                    cout<< "Element decreased successfully!"<<endl;
+                else 
+                    cout<<"Element doesn't exists."<<endl;
+                break;
+            }
+            default: {
+                exit(0);
+            }
+        }
+    }
 
 
     return 0;
