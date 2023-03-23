@@ -148,13 +148,6 @@ public:
         this->head = temp;
     }
 
-    int remove(int key) {
-        if(head == NULL)
-            return 0;
-
-        return 1;
-    }
-
     Node* extractMin() {
         if(head == NULL) 
             return NULL;
@@ -188,6 +181,49 @@ public:
 
         merge(h2);
         return minNode;
+    }
+
+    Node* search(Node* head, int key) {
+        if(head == NULL)
+            return NULL;
+        
+        Node* cur = head, *res = NULL;
+
+        if(cur->val == key)
+            return cur;
+        
+        if(cur->child && res == NULL)
+            res = search(cur->child, key);
+        if(cur->sibling && res == NULL)
+            res = search(cur->sibling, key);
+
+        return res;
+    }
+
+    int decreseKey(int i, int j) {
+        Node* p = search(getHead(), i);
+        if(p == NULL)
+            return 0;
+
+        p->val = j;
+
+        while(p->parent && p->parent->val > p->val) { 
+            swap(p->parent->val, p->val);
+            p = p->parent;
+        }
+
+        return 1;
+    }
+
+    int remove(int key) {
+        Node* p = search(getHead(), key);
+
+        if(p == NULL)
+            return 0;
+
+        decreseKey(key, INT_MIN);
+        extractMin();
+        return 1;
     }
 
     void printHeap() {
@@ -226,7 +262,7 @@ public:
 
 int main() {
 
-    vector<int> A = {1,2,3,4,5,6,7};
+    vector<int> A = {1,2,3,4,5,6,7,8,9,10,11};
     BinomialHeap h;
 
     for(int i : A)
@@ -235,11 +271,12 @@ int main() {
     h.printHeap();
     // cout<<h.getMinimum()->val;
 
-    cout<<"Deleted: "<<h.extractMin()->val<<endl<<endl;
+    // cout<<"Extracted: "<<h.extractMin()->val<<endl<<endl;
+    // h.printHeap();
+
+    h.remove(8);
     h.printHeap();
 
-    h.insert(100);
-    h.printHeap();
 
     return 0;
 }
