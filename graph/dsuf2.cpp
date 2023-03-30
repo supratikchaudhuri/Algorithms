@@ -1,3 +1,4 @@
+// can use min heap to extract min in case of adjacancy list
 #include <bits/stdc++.h>
 using namespace std;
 
