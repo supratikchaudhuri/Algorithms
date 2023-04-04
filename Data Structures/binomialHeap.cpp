@@ -88,6 +88,11 @@ public:
         Node* cur2 = h2.getHead();
         Node* cur3 = NULL, *temp = NULL;
 
+        if(cur1 == NULL) {
+            setHead(cur2);
+            return;
+        }
+
         if(cur2 == NULL) {
             return;
         }
@@ -236,22 +241,22 @@ public:
 		Node* curPtr = head;
         int n = 0;
 		while (curPtr != nullptr) {
-			cout<<"B"<<n<<" degree: "<<curPtr->degree<<endl;
+			cout<<"Heap #"<<n+1<<" degree: "<<curPtr->degree<<endl;
 			cout<<"There are "<<pow(2, curPtr->degree)<<" nodes in this tree"<<endl;
 			cout<<"The level order traversal is: "<<endl;
-			queue<Node*> q;
-			q.push(curPtr);
+			queue<pair<Node*, Node*>> q;
+			q.push({curPtr, NULL});
 			while (!q.empty()) {
 				int s = q.size();
 
                 while(s--) {
-                    Node* p =  q.front(); q.pop();
-                    cout<<p->val<<" ";
+                    auto p =  q.front(); q.pop();
+                    cout<<p.first->val<<" ("<<(p.second != NULL ? to_string(p.second->val) : "Root" )<<")\t";
 
-                    if(p->child) {
-                        Node* child = p->child;
+                    if(p.first->child) {
+                        Node* child = p.first->child;
                         while(child) {
-                            q.push(child);
+                            q.push({child, p.first});
                             child = child->sibling;
                         }
                     }
@@ -268,7 +273,7 @@ public:
 
 int main() {
 
-    vector<int> A = {1,2,3,4,5,6,7,8,9,10,11};
+    
     BinomialHeap heap;
 
     int input;
@@ -280,6 +285,7 @@ int main() {
             "3. Extract minimum element\n"
             "4. Delete element\n"
             "5. Decrese key\n"
+            "6. Build Heap\n"
             "Input: ";
         cin >> input;
 
@@ -308,7 +314,7 @@ int main() {
             case 3: {
                 Node* res = heap.extractMin();
                 if(res)
-                    cout<<"Element extracter: "<<res->val<<endl;
+                    cout<<"Element extracted: "<<res->val<<endl;
                 else
                     cout<<"Heap is empty!\n";
                 break;
@@ -333,6 +339,18 @@ int main() {
                     cout<< "Element decreased successfully!"<<endl;
                 else 
                     cout<<"Element doesn't exists."<<endl;
+                break;
+            }
+            case 6: {
+                int k;
+                
+                cout<<"Enter number of nodes: "; cin >> k;
+                vector<int> A(k) ;
+                cout<<"Enter "<<k<<" node values: \n";
+                for(int i = 0; i < k; i++) {
+                    cin>>A[i];
+                    heap.insert(A[i]);
+                }
                 break;
             }
             default: {
