@@ -20,7 +20,6 @@ struct Node {
 class BinomialHeap {
 private:
     Node* head;
-    Node* minP;
 
     void linkBinomialTrees(Node* x, Node* y) {
         y->parent = x;
@@ -49,14 +48,13 @@ private:
 public:
     BinomialHeap() {
         head = nullptr;
-        minP = head;
     }
 
     Node* getHead() { return head; }
 
     void setHead(Node* head) { this->head = head; }
 
-    Node* setMinimum() {
+    Node* getMinimum() {
 		// traverse all the roots and find compare
 		Node* cur = head;
 		Node* minPtr = nullptr;
@@ -71,10 +69,6 @@ public:
 		return minPtr;
 	}
 
-    Node* getMinimum() {
-        return this->minP;
-    }
-
     void insert(int key) {
         if(head == NULL) {
             setHead(new Node(key));
@@ -85,8 +79,6 @@ public:
             h2.setHead(new Node(key));
             merge(h2);
         }
-
-        this->minP = setMinimum();
 	}
 
     // void merge(BinomialHeap h2) {return;}
@@ -242,7 +234,6 @@ public:
 
         decreaseKey(key, INT_MIN);
         extractMin();
-        setMinimum();
         return 1;
     }
 
