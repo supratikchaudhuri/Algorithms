@@ -199,6 +199,7 @@ public:
         }
 
         merge(h2);
+        this->minP = setMinimum();
         return minNode;
     }
 
@@ -242,7 +243,7 @@ public:
 
         decreaseKey(key, INT_MIN);
         extractMin();
-        setMinimum();
+        this->minP = setMinimum();
         return 1;
     }
 
