@@ -1,14 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct edge
-{
+struct edge {
     int src, dst, wt;
 };
 int V, E;
 
-void bellmanFord(vector<edge> &Edges)
-{
+void bellmanFord(vector<edge> &Edges) {
     int parent[V];                 //Stores Shortest Path Structure
     int cost_parent[V];            //Cost of the node to parent edge weight..........redundant array
     vector<int> value(V, INT_MAX); //Keeps shortest path values to each vertex from source
@@ -19,16 +17,14 @@ void bellmanFord(vector<edge> &Edges)
 
     //Include (V-1) edges to cover all V-vertices
     bool updated;
-    for (int i = 0; i < V - 1; ++i)
-    {
+    for (int i = 0; i < V - 1; ++i) {
+
         updated = false;
-        for (int j = 0; j < E; ++j)
-        {
+        for (int j = 0; j < E; ++j) {
             int U = Edges[j].src;
             int V = Edges[j].dst;
             int wt = Edges[j].wt;
-            if (value[U] != INT_MAX and value[U] + wt < value[V]) //value[U] == INT_MAX will mean disconnected  graph
-            {
+            if (value[U] != INT_MAX and value[U] + wt < value[V]) { //value[U] == INT_MAX will mean disconnected  graph 
                 value[V] = value[U] + wt;
                 parent[V] = U;
                 cost_parent[V] = value[V];
@@ -50,20 +46,21 @@ void bellmanFord(vector<edge> &Edges)
             return;
         }
     }
-    //Print Shortest Path Graph
+
+
+    // Print Shortest Path Graph
     for (int i = 1; i < V; ++i)
         cout << "U->V: " << parent[i] << "->" << i << "  Cost to reach " << parent[i] << "from source 0 = " << value[i] << "\n";
+
 }
 
-int main()
-{
+int main() {
     cin >> V >> E; //Enter no of Vertices and Edges
     vector<edge> Edges(E);
 
     //Now input all E edges
     int src, dst, wt;
-    for (int i = 0; i < E; ++i)
-    {
+    for (int i = 0; i < E; ++i) {
         cin >> src >> dst >> wt;
         Edges[i].src = src;
         Edges[i].dst = dst;
