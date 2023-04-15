@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
+#include <fstream>
 using namespace std;
-   
+    
 struct Edge {
     int flow;
     int capacity;
@@ -13,7 +14,7 @@ struct Edge {
         this->v = v;
     }
 };
-   
+    
 struct Vertex {
     int height, excess_flow;
    
@@ -22,7 +23,7 @@ struct Vertex {
         this->excess_flow = excess_flow;
     }
 };
-   
+    
 // To represent a flow network
 class Graph {
     int V;
@@ -35,10 +36,27 @@ class Graph {
    
 public:
     Graph(int V);
-    void addEdge(int u, int v, int w);
-    int getMaximumFlow(int source, int sink);
-};
+    // void addEdge(int u, int v, int w);
+    // int getMaximumFlow(int source, int sink);
 
+    void addEdge(int u, int v, int capacity) {
+        edge.push_back(Edge(0, capacity, u, v));
+    }
+
+    // The main function is to print the maximum flow of the graph
+    int getMaximumFlow(int source, int sink) {
+        preflow(source);
+        
+        while (overFlowVertex(vertex) != -1) {
+            int u = overFlowVertex(vertex);
+            if (!push(u))
+                relabel(u);
+        }
+        return vertex.back().excess_flow;
+    }
+
+};
+    
 Graph::Graph(int V) {
     this->V = V;
     for (int i = 0; i < V; i++)
@@ -54,7 +72,7 @@ bool Graph::push(int u) {
             if (vertex[u].height > vertex[edge[i].v].height) {
                 int flow = min(edge[i].capacity - edge[i].flow,
                                vertex[u].excess_flow);
-   
+    
                 vertex[u].excess_flow -= flow;
                 vertex[edge[i].v].excess_flow += flow;
                 edge[i].flow += flow;
@@ -128,40 +146,60 @@ void Graph::ReverseEdgeFlowUpdate(int i, int flow) {
 //Function to return an index of overflowing Vertex
 int overFlowVertex(vector<Vertex>& vertex) {
     int n = vertex.size();
-    for (int i = 1; i < n - 1; i++)
+    for (int i = 1; i < n-1; i++)
        if (vertex[i].excess_flow > 0)
             return i;
     return -1;
 }
 
-// The main function is to print the maximum flow of the graph
-int Graph::getMaximumFlow(int source, int sink) {
-    preflow(source);
-    int u = overFlowVertex(vertex);
-    while (u != -1) {
-        if (!push(u))
-            relabel(u);
-    }
-    return vertex.back().excess_flow;
-}
+// // The main function is to print the maximum flow of the graph
+// int Graph::getMaximumFlow(int source, int sink) {
+//     preflow(source);
+    
+//     while (overFlowVertex(vertex) != -1) {
+//         int u = overFlowVertex(vertex);
+//         if (!push(u))
+//             relabel(u);
+//     }
+//     return vertex.back().excess_flow;
+// }
 
-   
-// Driver Code
+
 int main() {
-    int V = 6;
-    Graph g(V);
-    g.addEdge(0, 1, 10);
-    g.addEdge(0, 3, 10);
-    g.addEdge(1, 3, 2);
-    g.addEdge(1, 2, 4);
-    g.addEdge(1, 4, 8);
-    g.addEdge(3, 4, 9);
-    g.addEdge(2, 5, 10);
-    g.addEdge(4, 5, 10);
-    g.addEdge(4, 2, 6);
+    Graph g(0);
+    int V;  
 
-    int source = 0, sink = 5;
-   
-    cout << "Maximum flow is " << g.getMaximumFlow(source, sink);
+    string filePath, str = "";
+    cout<<"Enter destination of input file: ";
+    cin >> filePath;
+
+    ifstream file(filePath);
+    bool firstLine = true;
+    while (getline (file, str)) {
+        if(str.length() == 0) continue;
+        string w = "";
+        int u = -1, v = -1, c = -1;
+        for(char c: str) {
+            if(c == ' ') {
+                if(u == -1)      u = stoi(w);
+                else if(v == -1) v = stoi(w);
+                w = "";
+            }
+            else 
+                w += c;
+        }
+        c = stoi(w);
+        if(firstLine) {
+            V = u;
+            g = Graph(V);
+            firstLine = false;
+            continue;
+        }
+
+        g.addEdge(u-1, v-1, c);
+    }
+    file.close();
+
+    cout << "Maximum flow is " << g.getMaximumFlow(0, V-1);
     return 0;
 }
