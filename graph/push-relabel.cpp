@@ -29,10 +29,6 @@ class Graph {
     int V;
     vector<Vertex> vertex;
     vector<Edge> edge;
-    // bool push(int u);
-    // void relabel(int u);
-    // void preflow(int source);
-    // void ReverseEdgeFlowUpdate(int i, int flow);
 
     bool push(int u) {
         for (int i=0; i <edge.size(); i++) {
@@ -121,15 +117,12 @@ class Graph {
     }
    
 public:
-    // Graph(int V);
 
     Graph(int V) {
         this->V = V;
         for (int i = 0; i < V; i++)
             vertex.push_back(Vertex(0, 0));
     }
-    // void addEdge(int u, int v, int w);
-    // int getMaximumFlow(int source, int sink);
 
     void addEdge(int u, int v, int capacity) {
         edge.push_back(Edge(0, capacity, u, v));
@@ -148,113 +141,7 @@ public:
     }
 
 };
-    
-// Graph::Graph(int V) {
-//     this->V = V;
-//     for (int i = 0; i < V; i++)
-//         vertex.push_back(Vertex(0, 0));
-// }
-
-// To push flow from overflowing Vertex u
-// bool Graph::push(int u) {
-//     for (int i=0; i <edge.size(); i++) {
-//         if (edge[i].u == u) {
-//             if (edge[i].flow == edge[i].capacity)
-//                 continue;
-//             if (vertex[u].height > vertex[edge[i].v].height) {
-//                 int flow = min(edge[i].capacity - edge[i].flow,
-//                                vertex[u].excess_flow);
-    
-//                 vertex[u].excess_flow -= flow;
-//                 vertex[edge[i].v].excess_flow += flow;
-//                 edge[i].flow += flow;
-   
-//                 ReverseEdgeFlowUpdate(i, flow);
-   
-//                 return true;
-//             }
-//         }
-//     }
-//     return false;
-// }
-   
-// // function to Relabel vertex u
-// void Graph::relabel(int u) {
-//     int maximum_height = INT_MAX;
-//     int n = edge.size();
-//     // To Find the adjacent with minimum height
-//     for (int i = 0; i < n; i++) {
-//         if (edge[i].u == u) {
-//             if (edge[i].flow == edge[i].capacity)
-//                 continue;
-   
-//             // for Updating the minimum height
-//             if (vertex[edge[i].v].height < maximum_height) {
-//                 maximum_height = vertex[edge[i].v].height;
-//                 // updating the height of u
-//                 vertex[u].height = maximum_height + 1;
-//             }
-//         }
-//     }
-// }
-   
-// void Graph::preflow(int source) {
-//     vertex[source].height = vertex.size();
-//     int n = edge.size();
-//     for (int i = 0; i < n; i++) {
-//         if (edge[i].u == source) {
-//             edge[i].flow = edge[i].capacity;
-   
-//             // Initialize excess flow for adjacent v
-//             vertex[edge[i].v].excess_flow = vertex[edge[i].v].excess_flow + edge[i].flow;
-//             edge.push_back(Edge(-edge[i].flow, 0, edge[i].v, source));
-//         }
-//     }
-// }
-   
-// void Graph::addEdge(int u, int v, int capacity) {
-//     edge.push_back(Edge(0, capacity, u, v));
-// }
-   
-// To Update reverse flow for flow added on ith Edge
-// void Graph::ReverseEdgeFlowUpdate(int i, int flow) {
-//     int u = edge[i].v;
-//     int v = edge[i].u;
-//     int j = 0, n = edge.size();
-   
-//     while (j < n) {
-//         if (edge[j].v == v && edge[j].u == u) {
-//             edge[j].flow -= flow;
-//             return;
-//         }
-//         j++;
-//     }
-    
-//     // adding the reverse Edge in the residual graph, if does not exits
-//     Edge e = Edge(0, flow, u, v);
-//     edge.push_back(e);
-// }
-
-// //Function to return an index of overflowing Vertex
-// int overFlowVertex(vector<Vertex>& vertex) {
-//     int n = vertex.size();
-//     for (int i = 1; i < n-1; i++)
-//        if (vertex[i].excess_flow > 0)
-//             return i;
-//     return -1;
-// }
-
-// // The main function is to print the maximum flow of the graph
-// int Graph::getMaximumFlow(int source, int sink) {
-//     preflow(source);
-    
-//     while (overFlowVertex(vertex) != -1) {
-//         int u = overFlowVertex(vertex);
-//         if (!push(u))
-//             relabel(u);
-//     }
-//     return vertex.back().excess_flow;
-// }
+  
 
 
 int main() {
@@ -292,6 +179,6 @@ int main() {
     }
     file.close();
 
-    cout << "Maximum flow is " << g.getMaximumFlow(0, V-1);
+    cout << "Maximum flow is " << g.getMaximumFlow(0, V-1)<<endl;
     return 0;
 }
