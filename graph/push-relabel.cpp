@@ -31,10 +31,17 @@ class Graph {
     vector<Edge> edge;
 
     bool push(int u) {
+        
         for (int i=0; i <edge.size(); i++) {
             if (edge[i].u == u) {
+                auto e = edge[i];
+                cout<<"Edge: "<<e.u<<"->"<<e.v<<"   "<<e.flow<<"/"<<e.capacity<<endl;
+                cout<<"Source Vertex: "<<e.u<<"  Height: "<<vertex[e.u].height<<", Excess Flow: "<<vertex[e.u].excess_flow<<endl;
+                cout<<"Destination Vertex: "<<e.v<<"  Height: "<<vertex[e.v].height<<", Excess Flow: "<<vertex[e.v].excess_flow<<endl;
+                cout<<"\n\n\n";
                 if (edge[i].flow == edge[i].capacity)
                     continue;
+        
                 if (vertex[u].height > vertex[edge[i].v].height) {
                     int flow = min(edge[i].capacity - edge[i].flow,
                                 vertex[u].excess_flow);
@@ -134,6 +141,7 @@ public:
         
         while (overFlowVertex(vertex) != -1) {
             int u = overFlowVertex(vertex);
+            
             if (!push(u))
                 relabel(u);
         }
@@ -178,7 +186,8 @@ int main() {
         g.addEdge(u-1, v-1, c);
     }
     file.close();
+    int max_flow = g.getMaximumFlow(0, V-1);
 
-    cout << "Maximum flow is " << g.getMaximumFlow(0, V-1)<<endl;
+    cout << "\n\n\nMaximum flow is :" << max_flow<<endl;
     return 0;
 }
