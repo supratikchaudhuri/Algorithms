@@ -56,6 +56,18 @@ public:
         cout<<endl;
         return components;
     }
+
+    // if want everyone have the same parent (in case the order of edges makes the parent different) (https://leetcode.com/problems/count-unreachable-pairs-of-nodes-in-an-undirected-graph/description/)
+    // use this: 
+    void adjust_parent() {
+        for(int i = 0; i < n; i++) {
+            int j = i;
+            while(parent[j] != j) {
+                parent[i] = parent[parent[i]];
+                j = parent[j];
+            }
+        }
+    }
 };
 
 int main() {
@@ -69,7 +81,7 @@ int main() {
             UF.Union(i, adj[i][j]);
         }
     }
-
+    
     cout<<UF.getComponents();
     return 0;
 }
