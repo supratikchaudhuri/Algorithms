@@ -1,37 +1,34 @@
-def fib_a(n): 
-    if n <= 1:
-        return n
+def myNormalizer(url):
+    default_protocol = "http"
+    default_domain = "localhost"
+    default_port = "80"
+    default_path = "/"
+
+    if url == "":
+        return f"{default_protocol}://{default_domain}:{default_port}{default_path}"
+
+    parts = url.split("://")
+    protocol, remainder = parts
+
+    if protocol == "":
+        protocol = default_protocol
     
-    seq = [0, 1]
+    domain_parts = remainder.split(":")
+    domain, remainder = domain_parts
 
-    for i in range(n):
-        seq.append(seq[-1] + seq[-2])
+    if domain == "":
+        domain = default_domain
     
-    return seq[n]
+    port_parts = remainder.split("/")
+    port, remainder = port_parts
 
-def fib_b(n):
-    if n <= 1:
-        return n
-    
-    p2 = 0
-    p1 = 1
+    if port == "":
+        port = default_port
 
-    for _ in range(n-1):
-        p2, p1 = p1, p1 + p2
+    path = remainder
 
-    return p1
+    if path == "":
+        path = default_path
 
-
-def fib_c(n):
-    if n <= 1:
-        return n
-    
-    return fib_c(n-1) + fib_c(n-2)
-
-print(fib_a(21))
-print(fib_b(21))
-print(fib_c(21))
-
-print(fib_a(10))
-print(fib_b(10))
-print(fib_c(10))
+    normalized_url = f"{protocol}://{domain}:{port}/{path}"
+    return normalized_url
