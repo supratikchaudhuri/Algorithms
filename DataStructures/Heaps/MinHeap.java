@@ -2,8 +2,7 @@ package DataStructures.Heaps;
 
 import java.util.Arrays;
 
-public class MinHeap
-{
+public class MinHeap {
 	private int[] Heap;
 	private int index;
 	private int size;
